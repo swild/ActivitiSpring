@@ -9,6 +9,18 @@
                                      title="${twitterMessage.fromUser}"
                                      src="${twitterMessage.profileImageUrl}"
                                      width="48" height="48">
+								<form:form id="retweetId${twitterMessage.id}Form">
+                                	<input id="retweetId${twitterMessage.id}" type="submit" name="retweetId${twitterMessage.id}" value="Retweet" />
+                                	<script type="text/javascript">
+                                	 $(function() {
+                                         $('#retweetId${twitterMessage.id}').bind('click', function() {
+                                             $.post("<c:url value='/'/>", { retweet: "retweet", tweetId : "${twitterMessage.id}" });
+                                             return false;
+                                         });
+                                     });
+                                	</script>
+                                </form:form>
+                                <c:out value="${twitterMessage.createdAt}"/>
                                 <c:out value="${twitterMessage.text}"/></li>
                             </c:forEach>
                         </c:when>

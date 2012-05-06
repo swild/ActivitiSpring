@@ -4,7 +4,7 @@
 <html>
     <head>
 
-        <title>Welcome to Spring Integration</title>
+        <title>Welcome to Activiti Tweets Demo</title>
 
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 
@@ -22,10 +22,10 @@
         <div class="container">
             <div id="header" class="prepend-1 span-22 append-1 last">
                 <h1 class="loud">
-                    Welcome to Spring Integration
+                    Welcome to Activiti Tweets Demo
                 </h1>
                 <div>
-                    <form:form id="formId">
+                    <form:form id="twitterControlForm">
                         <input id="startTwitter" type="submit" name="startTwitter" value="Start Twitter Search" /> |
                         <input id="stopTwitter" type="submit" name="stopTwitter"   value="Stop Twitter Search" />
                     </form:form>
@@ -59,7 +59,7 @@
                 });
 
                 $('#stopTwitter').bind('click', function() {
-                    $.post("<c:url value='/'/>", "stopTwitter=stopTwitter");
+                    $.post("<c:url value='/'/>", { stopTwitter : "stopTwitter" });
                     return false;
                 });
             });

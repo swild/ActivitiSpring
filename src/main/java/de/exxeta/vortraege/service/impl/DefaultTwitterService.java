@@ -25,7 +25,7 @@ import org.springframework.integration.Message;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.core.MessagingTemplate;
 import org.springframework.integration.support.MessageBuilder;
-import org.springframework.integration.twitter.core.Tweet;
+import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
 
 import de.exxeta.vortraege.model.TwitterMessage;
@@ -97,7 +97,8 @@ public class DefaultTwitterService implements TwitterService {
      * @param tweet - The Spring Integration tweet object.
      */
     public void addTwitterMessages(Tweet tweet) {
-        this.twitterMessages.put(tweet.getCreatedAt().getTime(), new TwitterMessage(tweet.getCreatedAt(),
+        this.twitterMessages.put(tweet.getCreatedAt().getTime(), new TwitterMessage(tweet.getId(), 
+        		tweet.getCreatedAt(),
                 tweet.getText(),
                 tweet.getFromUser(),
                 tweet.getProfileImageUrl()));

@@ -43,5 +43,6 @@
 		
 	<!-- Services and Tasks -->
 	<bean id="doSomething" class="de.exxeta.vortraege.bpm.tasks.DoSomethingTask"/>
+	<bean id="retweet" class="de.exxeta.vortraege.bpm.tasks.RetweetTask"/>
 
 </beans>

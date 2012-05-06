@@ -5,7 +5,6 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.impl.bpmn.deployer.BpmnDeployer;

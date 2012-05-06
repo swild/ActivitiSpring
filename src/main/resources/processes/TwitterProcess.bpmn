@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="twitterProcess" name="Twitter Process">
+    <startEvent id="start" name="Start"></startEvent>
+    <endEvent id="end" name="End"></endEvent>
+    <serviceTask id="retweet" name="Retweet" activiti:expression="#{retweet.execute(twitterMessage.id)}"></serviceTask>
+    <exclusiveGateway id="approveRetweetGateway" name="Approve Retweet Gateway" default="noApprovementRequired"></exclusiveGateway>
+    <userTask id="approveRetweet" name="Approve Retweet" activiti:assignee="CEO"></userTask>
+    <sequenceFlow id="startOk" name="" sourceRef="start" targetRef="approveRetweetGateway"></sequenceFlow>
+    <sequenceFlow id="retweetOk" name="" sourceRef="retweet" targetRef="end"></sequenceFlow>
+    <sequenceFlow id="approvementRequired" name="" sourceRef="approveRetweetGateway" targetRef="approveRetweet">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{twitterMessage.text.toUpperCase().contains('JAVA')}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="approveRetweetOk" name="" sourceRef="approveRetweet" targetRef="retweet"></sequenceFlow>
+    <sequenceFlow id="noApprovementRequired" name="" sourceRef="approveRetweetGateway" targetRef="retweet"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_twitterProcess">
+    <bpmndi:BPMNPlane bpmnElement="twitterProcess" id="BPMNPlane_twitterProcess">
+      <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
+        <omgdc:Bounds height="35" width="35" x="30" y="160"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="end" id="BPMNShape_end">
+        <omgdc:Bounds height="35" width="35" x="578" y="160"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="retweet" id="BPMNShape_retweet">
+        <omgdc:Bounds height="55" width="105" x="398" y="150"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approveRetweetGateway" id="BPMNShape_approveRetweetGateway">
+        <omgdc:Bounds height="40" width="40" x="130" y="157"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approveRetweet" id="BPMNShape_approveRetweet">
+        <omgdc:Bounds height="55" width="105" x="242" y="20"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="startOk" id="BPMNEdge_startOk">
+        <omgdi:waypoint x="65" y="177"></omgdi:waypoint>
+        <omgdi:waypoint x="130" y="177"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="retweetOk" id="BPMNEdge_retweetOk">
+        <omgdi:waypoint x="503" y="177"></omgdi:waypoint>
+        <omgdi:waypoint x="578" y="177"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="approvementRequired" id="BPMNEdge_approvementRequired">
+        <omgdi:waypoint x="150" y="157"></omgdi:waypoint>
+        <omgdi:waypoint x="150" y="47"></omgdi:waypoint>
+        <omgdi:waypoint x="242" y="47"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="approveRetweetOk" id="BPMNEdge_approveRetweetOk">
+        <omgdi:waypoint x="347" y="47"></omgdi:waypoint>
+        <omgdi:waypoint x="450" y="47"></omgdi:waypoint>
+        <omgdi:waypoint x="450" y="150"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="noApprovementRequired" id="BPMNEdge_noApprovementRequired">
+        <omgdi:waypoint x="170" y="177"></omgdi:waypoint>
+        <omgdi:waypoint x="398" y="177"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
