@@ -7,15 +7,15 @@ import org.springframework.social.twitter.api.impl.TwitterTemplate;
 
 public class RetweetTask {
 
-	private static final Logger LOG = LoggerFactory.getLogger(RetweetTask.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RetweetTask.class);
 
-	@Autowired
-	private TwitterTemplate twitterTemplate;
+    @Autowired
+    private TwitterTemplate twitterTemplate;
 
-	public void execute(long tweetId) {
-		LOG.info("Retweet tweet id {}.", tweetId);
+    public void execute(long tweetId) {
+        LOG.info("Retweet tweet id {}.", tweetId);
 
-		twitterTemplate.timelineOperations().retweet(tweetId);
-	}
+        twitterTemplate.timelineOperations().retweet(tweetId);
+    }
 
 }

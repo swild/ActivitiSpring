@@ -46,15 +46,16 @@ public class DefaultTwitterService implements TwitterService {
 
     /**
      * Constructor that initializes the 'twitterMessages' Map as a simple LRU
-     * cache. @See http://blogs.oracle.com/swinger/entry/collections_trick_i_lru_cache
+     * cache. @See
+     * http://blogs.oracle.com/swinger/entry/collections_trick_i_lru_cache
      */
     public DefaultTwitterService() {
 
-        twitterMessages = new LinkedHashMap<Long, TwitterMessage>( 10, 0.75f, true ) {
+        twitterMessages = new LinkedHashMap<Long, TwitterMessage>(10, 0.75f, true) {
 
             private static final long serialVersionUID = 1L;
 
-            protected boolean removeEldestEntry( java.util.Map.Entry<Long, TwitterMessage> entry ) {
+            protected boolean removeEldestEntry(java.util.Map.Entry<Long, TwitterMessage> entry) {
                 return size() > 10;
             }
 
@@ -90,18 +91,15 @@ public class DefaultTwitterService implements TwitterService {
 
     }
 
-
     /**
      * Called by Spring Integration to populate a simple LRU cache.
-     *
-     * @param tweet - The Spring Integration tweet object.
+     * 
+     * @param tweet
+     *            - The Spring Integration tweet object.
      */
     public void addTwitterMessages(Tweet tweet) {
-        this.twitterMessages.put(tweet.getCreatedAt().getTime(), new TwitterMessage(tweet.getId(), 
-        		tweet.getCreatedAt(),
-                tweet.getText(),
-                tweet.getFromUser(),
-                tweet.getProfileImageUrl()));
+        this.twitterMessages.put(tweet.getCreatedAt().getTime(), new TwitterMessage(tweet.getId(),
+                tweet.getCreatedAt(), tweet.getText(), tweet.getFromUser(), tweet.getProfileImageUrl()));
     }
 
 }

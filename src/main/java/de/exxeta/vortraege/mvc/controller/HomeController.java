@@ -35,73 +35,75 @@ import de.exxeta.vortraege.service.TwitterService;
 @Controller
 public class HomeController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
 
-	@Autowired
-	private TwitterService twitterService;
+    @Autowired
+    private TwitterService twitterService;
 
-	@Autowired
-	private ProcessService processService;
+    @Autowired
+    private ProcessService processService;
 
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/")
-	public String home(Model model, @RequestParam(required = false) String startTwitter,
-			@RequestParam(required = false) String stopTwitter, @RequestParam(required = false) String retweet,
-			@RequestParam(required = false) String tweetId) {
+    /**
+     * Simply selects the home view to render by returning its name.
+     */
+    @RequestMapping(value = "/")
+    public String home(Model model, 
+            @RequestParam(required = false) String startTwitter,
+            @RequestParam(required = false) String stopTwitter, 
+            @RequestParam(required = false) String retweet,
+            @RequestParam(required = false) String tweetId) {
 
-		if (startTwitter != null) {
-			twitterService.startTwitterAdapter();
-			return "redirect:/";
-		}
+        if (startTwitter != null) {
+            twitterService.startTwitterAdapter();
+            return "redirect:/";
+        }
 
-		if (stopTwitter != null) {
-			twitterService.stopTwitterAdapter();
-			return "redirect:/";
-		}
+        if (stopTwitter != null) {
+            twitterService.stopTwitterAdapter();
+            return "redirect:/";
+        }
 
-		final Collection<TwitterMessage> twitterMessages = twitterService.getTwitterMessages();
+        final Collection<TwitterMessage> twitterMessages = twitterService.getTwitterMessages();
 
-		LOG.info("Retrieved {} Twitter messages.", twitterMessages.size());
+        LOG.info("Retrieved {} Twitter messages.", twitterMessages.size());
 
-		model.addAttribute("twitterMessages", twitterMessages);
+        model.addAttribute("twitterMessages", twitterMessages);
 
-		if (retweet != null && tweetId != null) {
-			TwitterMessage message = getTwitterMessage(twitterMessages, Long.valueOf(tweetId));
-			if (null != message) {
-				LOG.info("Retweet tweet id {}.", tweetId);
-				processService.start(message);
-			} else {
-				LOG.error("No tweet found for id {}.", tweetId);
-			}
-			return "redirect:/";
-		}
+        if (retweet != null && tweetId != null) {
+            TwitterMessage message = getTwitterMessage(twitterMessages, Long.valueOf(tweetId));
+            if (null != message) {
+                LOG.info("Retweet tweet id {}.", tweetId);
+                processService.start(message);
+            } else {
+                LOG.error("No tweet found for id {}.", tweetId);
+            }
+            return "redirect:/";
+        }
 
-		return "home";
-	}
+        return "home";
+    }
 
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/ajax")
-	public String ajaxCall(Model model) {
+    /**
+     * Simply selects the home view to render by returning its name.
+     */
+    @RequestMapping(value = "/ajax")
+    public String ajaxCall(Model model) {
 
-		final Collection<TwitterMessage> twitterMessages = twitterService.getTwitterMessages();
+        final Collection<TwitterMessage> twitterMessages = twitterService.getTwitterMessages();
 
-		LOG.info("Retrieved {} Twitter messages.", twitterMessages.size());
-		model.addAttribute("twitterMessages", twitterMessages);
+        LOG.info("Retrieved {} Twitter messages.", twitterMessages.size());
+        model.addAttribute("twitterMessages", twitterMessages);
 
-		return "twitterMessages";
+        return "twitterMessages";
 
-	}
+    }
 
-	private TwitterMessage getTwitterMessage(Collection<TwitterMessage> twitterMessages, long id) {
-		for (TwitterMessage twitterMessage : twitterMessages) {
-			if (id == twitterMessage.getId()) {
-				return twitterMessage;
-			}
-		}
-		return null;
-	}
+    private TwitterMessage getTwitterMessage(Collection<TwitterMessage> twitterMessages, long id) {
+        for (TwitterMessage twitterMessage : twitterMessages) {
+            if (id == twitterMessage.getId()) {
+                return twitterMessage;
+            }
+        }
+        return null;
+    }
 }
